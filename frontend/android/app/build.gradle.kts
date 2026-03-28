@@ -87,13 +87,13 @@ android {
         }
     }
 
-    // ── ABI Split — Her mimari için ayrı APK (Play Store otomatik seçer) ───
+    // ── ABI Split — Universal APK (tek dosya, tüm mimariler) ───────────────
     splits {
         abi {
-            isEnable      = true
+            isEnable       = true
             reset()
             include("arm64-v8a", "armeabi-v7a", "x86_64")
-            isUniversalApk = false
+            isUniversalApk = true   // true = tek evrensel APK
         }
     }
 
