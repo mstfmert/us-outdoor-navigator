@@ -1,0 +1,8 @@
+# Place app icons here:
+# - app_icon.png           (1024x1024 — App Store / Play Store ana ikon)
+# - app_icon_foreground.png (432x432 — Android Adaptive Icon ön katman)
+# 
+# Tasarım Kılavuzu:
+#   Arka plan:   #0D1526 (koyu lacivert)
+#   Ön katman:   🏕️ beyaz kamp çadırı veya fosforlu yeşil dalga motifi
+#   Safe zone:   Merkez 72dp çemberinde kalın

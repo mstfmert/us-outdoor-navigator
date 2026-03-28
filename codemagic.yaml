@@ -1,0 +1,169 @@
+##############################################################################
+# codemagic.yaml — US Outdoor Navigator
+# iOS App Store + Android Play Store CI/CD
+#
+# KURULUM:
+#   1. codemagic.io → GitHub repo'nu bağla
+#   2. Environment Variables ekle (aşağıda):
+#      - RC_KEY_ANDROID  → RevenueCat Android Public Key
+#      - RC_KEY_IOS      → RevenueCat iOS Public Key
+#      - APP_STORE_CONNECT_KEY_IDENTIFIER → App Store Connect API Key ID
+#      - APP_STORE_CONNECT_ISSUER_ID      → App Store Connect Issuer ID
+#      - APP_STORE_CONNECT_PRIVATE_KEY    → App Store Connect .p8 key (base64)
+#      - KEYSTORE_BASE64                  → android/app/usoutdoor-release.jks (base64)
+#      - CM_KEYSTORE_PASSWORD             → usoutdoor2026
+#      - CM_KEY_ALIAS                     → usoutdoor
+#      - CM_KEY_PASSWORD                  → usoutdoor2026
+##############################################################################
+
+workflows:
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # iOS — App Store Build & Upload
+  # ─────────────────────────────────────────────────────────────────────────
+  ios-app-store:
+    name: iOS App Store Release
+    max_build_duration: 90
+    instance_type: mac_mini_m2
+
+    integrations:
+      app_store_connect: US_Outdoor_ASC  # Codemagic dashboard'da oluştur
+
+    environment:
+      groups:
+        - app_store_credentials  # Codemagic → Team → Variables grupları
+        - revenuecat_keys
+      vars:
+        BUNDLE_ID: "com.mert.usoutdoor"
+        XCODE_WORKSPACE: "ios/Runner.xcworkspace"
+        XCODE_SCHEME: "Runner"
+        API_URL: "https://us-outdoor-api-production.up.railway.app"
+      flutter: stable
+      xcode: latest
+      cocoapods: default
+
+    triggering:
+      events:
+        - tag
+      tag_patterns:
+        - pattern: "v*"
+          include: true
+
+    scripts:
+      - name: Set up code signing
+        script: |
+          keychain initialize
+          app-store-connect fetch-signing-files \
+            "$BUNDLE_ID" \
+            --type IOS_APP_STORE \
+            --create
+          keychain add-certificates
+          xcode-project use-profiles
+
+      - name: Flutter pub get
+        script: |
+          cd frontend
+          flutter pub get
+
+      - name: Install CocoaPods
+        script: |
+          cd frontend/ios
+          pod install --repo-update
+
+      - name: Flutter build iOS
+        script: |
+          cd frontend
+          flutter build ios --release \
+            --dart-define=API_URL=$API_URL \
+            --dart-define=RC_KEY_IOS=$RC_KEY_IOS \
+            --no-codesign
+
+      - name: Xcode build & sign
+        script: |
+          cd frontend
+          xcode-project build-ipa \
+            --workspace "$XCODE_WORKSPACE" \
+            --scheme "$XCODE_SCHEME"
+
+    artifacts:
+      - frontend/build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+
+    publishing:
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: true
+        submit_to_app_store: false  # Önce TestFlight, manuel review sonra store
+        release_type: AFTER_APPROVAL
+
+      email:
+        recipients:
+          - mert.neck@gmail.com
+        notify:
+          success: true
+          failure: true
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # Android — Play Store Build & Upload
+  # ─────────────────────────────────────────────────────────────────────────
+  android-play-store:
+    name: Android Play Store Release
+    max_build_duration: 60
+    instance_type: linux_x2
+
+    environment:
+      groups:
+        - google_play_credentials
+        - revenuecat_keys
+        - android_signing
+      vars:
+        PACKAGE_NAME: "com.mert.usoutdoor"
+        API_URL: "https://us-outdoor-api-production.up.railway.app"
+      flutter: stable
+
+    triggering:
+      events:
+        - tag
+      tag_patterns:
+        - pattern: "v*"
+          include: true
+
+    scripts:
+      - name: Set up keystore
+        script: |
+          echo $KEYSTORE_BASE64 | base64 --decode > frontend/android/app/usoutdoor-release.jks
+          cat >> frontend/android/key.properties << EOF
+          storePassword=$CM_KEYSTORE_PASSWORD
+          keyPassword=$CM_KEY_PASSWORD
+          keyAlias=$CM_KEY_ALIAS
+          storeFile=usoutdoor-release.jks
+          EOF
+
+      - name: Flutter pub get
+        script: |
+          cd frontend
+          flutter pub get
+
+      - name: Flutter build AAB
+        script: |
+          cd frontend
+          flutter build appbundle --release \
+            --dart-define=API_URL=$API_URL \
+            --dart-define=RC_KEY_ANDROID=$RC_KEY_ANDROID
+
+    artifacts:
+      - frontend/build/app/outputs/bundle/release/app-release.aab
+      - frontend/build/app/outputs/mapping/release/mapping.txt
+
+    publishing:
+      google_play:
+        credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
+        track: internal          # internal → alpha → beta → production
+        submit_as_draft: false
+
+      email:
+        recipients:
+          - mert.neck@gmail.com
+        notify:
+          success: true
+          failure: true

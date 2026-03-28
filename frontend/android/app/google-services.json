@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "203303398714",
+    "project_id": "us-outdoor-navigator-app",
+    "storage_bucket": "us-outdoor-navigator-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:203303398714:android:545f65d9d1c4e5c04f7403",
+        "android_client_info": {
+          "package_name": "com.mert.usoutdoor"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAkUdbY_1dPHKyeVjK5bY4YBmom4f39MUI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

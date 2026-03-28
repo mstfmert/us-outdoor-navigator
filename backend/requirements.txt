@@ -1,0 +1,26 @@
+# ── Core API ──────────────────────────────────────────────────────────────────
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+pydantic==2.5.0
+python-dotenv==1.0.0
+httpx==0.25.2
+aiofiles==23.2.1
+
+# ── Data & Geo ────────────────────────────────────────────────────────────────
+pandas==2.1.4
+geopy==2.4.1
+requests==2.31.0
+
+# ── Auth & Security ───────────────────────────────────────────────────────────
+# python-jose[cryptography]==3.3.0   # JWT (opsiyonel — mevcut HMAC ile değiştirildi)
+# passlib[bcrypt]==1.7.4             # Password hashing (kullanıcı auth için)
+
+# ── Rate Limiting ─────────────────────────────────────────────────────────────
+slowapi==0.1.9                        # FastAPI rate limiting middleware
+
+# ── SMS / Emergency (SOS Production) ─────────────────────────────────────────
+# twilio==8.5.0                       # Twilio SMS — TWILIO_* env vars gerekli
+
+# ── Database (Production Upgrade) ────────────────────────────────────────────
+# asyncpg==0.29.0                    # Supabase/PostgreSQL async driver
+# sqlalchemy[asyncio]==2.0.23        # ORM for PostgreSQL

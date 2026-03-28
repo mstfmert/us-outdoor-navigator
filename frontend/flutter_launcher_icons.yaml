@@ -1,0 +1,40 @@
+# flutter_launcher_icons.yaml — US Outdoor Navigator
+# App icon generator — tüm çözünürlükler (Android Adaptive Icons dahil)
+# Çalıştır: dart run flutter_launcher_icons
+# 
+# ⚠️  Önce assets/icons/app_icon.png dosyasını 1024x1024 PNG olarak yerleştirin!
+
+flutter_launcher_icons:
+  # ── Android ──────────────────────────────────────────────────────────────
+  android: "launcher_icon"
+  min_sdk_android: 21
+  
+  # Ana ikon (1024x1024 PNG — koyu lacivert + beyaz 🏕️ veya yeşil dalga)
+  image_path: "assets/icons/app_icon.png"
+  
+  # Android Adaptive Icon (Android 8.0+)
+  adaptive_icon_background: "#0D1526"     # Lacivert arka plan
+  adaptive_icon_foreground: "assets/icons/app_icon_foreground.png"  # 108x108dp safe zone ikon
+  
+  # ── iOS ──────────────────────────────────────────────────────────────────
+  ios: true
+  remove_alpha_ios: true   # Apple App Store — alpha kanalsız ikon zorunlu
+  image_path_ios: "assets/icons/app_icon.png"
+  
+  # ── Web ──────────────────────────────────────────────────────────────────
+  web:
+    generate: true
+    image_path: "assets/icons/app_icon.png"
+    background_color: "#0A0E17"
+    theme_color: "#00FF88"
+  
+  # ── Windows ──────────────────────────────────────────────────────────────
+  windows:
+    generate: true
+    image_path: "assets/icons/app_icon.png"
+    icon_size: 48
+  
+  # ── MacOS ─────────────────────────────────────────────────────────────────
+  macos:
+    generate: true
+    image_path: "assets/icons/app_icon.png"

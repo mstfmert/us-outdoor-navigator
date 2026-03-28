@@ -1,0 +1,27 @@
+# render.yaml — Render.com deployment config
+# Deploy: render.com → New Web Service → GitHub repo bağla → backend/ klasörünü seç
+services:
+  - type: web
+    name: us-outdoor-navigator-api
+    runtime: python
+    rootDir: backend
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "uvicorn api_gateway:app --host 0.0.0.0 --port $PORT --workers 2"
+    healthCheckPath: /health
+    plan: free   # Free tier: 512MB RAM, 15dk sonra uyku
+    envVars:
+      - key: ENVIRONMENT
+        value: production
+      - key: DATA_DIR
+        value: /opt/render/project/src/data_sources
+      - key: PYTHON_VERSION
+        value: "3.11.0"
+      - key: NASA_API_KEY
+        sync: false   # Render dashboard'dan manuel gir
+      - key: ALLOWED_ORIGINS
+        value: "https://usoutdoor.app"
+    # ── Kalıcı Disk (ücretli plan gerektirir) ──────────────────────────────
+    # disk:
+    #   name: camp-data
+    #   mountPath: /opt/render/project/src/data_sources
+    #   sizeGB: 1

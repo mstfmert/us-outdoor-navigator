@@ -1,0 +1,29 @@
+# flutter_native_splash.yaml — US Outdoor Navigator
+# Koyu lacivert + fosforlu yeşil splash screen
+# Çalıştır: dart run flutter_native_splash:create
+
+flutter_native_splash:
+  # Arka plan rengi — koyu lacivert
+  color: "#0A0E17"
+
+  # Splash logo (generate_app_icon.py ile üretildi — 512x512 PNG)
+  image: assets/images/splash_logo.png
+
+  # Android 12+ adaptive splash (arka plan rengi)
+  android_12:
+    color: "#0A0E17"
+    image: assets/images/splash_logo.png
+    icon_background_color: "#0D1526"
+
+  # iOS splash
+  ios: true
+  android: true
+  web: false
+
+  # Durum çubuğu rengi
+  android_gravity: center
+  ios_content_mode: center
+  fullscreen: false
+
+  color_dark: "#0A0E17"
+  image_dark: assets/images/splash_logo.png

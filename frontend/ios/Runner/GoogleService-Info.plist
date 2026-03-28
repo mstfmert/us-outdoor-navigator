@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyD5BSef8F0qNX2ofIYBVKvMnRqW8Nqucrw</string>
+	<key>GCM_SENDER_ID</key>
+	<string>203303398714</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.mert.usoutdoor</string>
+	<key>PROJECT_ID</key>
+	<string>us-outdoor-navigator-app</string>
+	<key>STORAGE_BUCKET</key>
+	<string>us-outdoor-navigator-app.firebasestorage.app</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:203303398714:ios:8517b5b7f1438f0e4f7403</string>
+</dict>
+</plist>

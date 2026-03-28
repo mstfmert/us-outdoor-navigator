@@ -1,0 +1,60 @@
+# ═══════════════════════════════════════════════════════════════════════════
+# US Outdoor Navigator — Root .gitignore
+# ═══════════════════════════════════════════════════════════════════════════
+
+# ── Firebase Credentials — GERÇEK KEY'LERİ ASLA commit etme! ─────────────
+# Genel kural: tüm google-services dosyalarını exclude et
+**/google-services.json
+**/GoogleService-Info.plist
+# İSTİSNA: Placeholder dosyaları build için gerekli (gerçek key yok)
+# Bu dosyaları Firebase Console'dan indirilen GERÇEK dosyayla değiştir.
+!frontend/android/app/google-services.json
+!frontend/ios/Runner/GoogleService-Info.plist
+
+# ── Android Keystore & Signing (ASLA commit etme!) ────────────────────────
+**/key.properties
+**/*.jks
+**/*.keystore
+
+# ── Backend Environment ───────────────────────────────────────────────────
+backend/.env
+backend/__pycache__/
+backend/*.pyc
+backend/*.pyo
+**/__pycache__/
+**/*.pyc
+
+# ── Python ────────────────────────────────────────────────────────────────
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+env/
+
+# ── Data (büyük dosyalar — LFS veya ayrı repo) ────────────────────────────
+data_sources/us_outdoor_master_final.json
+data_sources/us_outdoor_master_v*.json
+data_sources/reports.json
+data_sources/sos_log.json
+# NOT: ca_camps_clean.json ve ca_camps_raw.json tracked (örnek data)
+
+# ── Logs ──────────────────────────────────────────────────────────────────
+logs/
+*.log
+
+# ── OS ────────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── IDE ───────────────────────────────────────────────────────────────────
+.vscode/settings.json
+.idea/
+*.swp
+*.swo
+
+# ── Flutter (frontend/.gitignore ayrıca mevcut) ───────────────────────────
+frontend/build/
+frontend/.dart_tool/
+frontend/.packages

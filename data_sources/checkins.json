@@ -1,0 +1,12 @@
+[
+  {
+    "user_id": "test_user",
+    "last_checkin": "2026-03-28T12:38:59.855014",
+    "last_lat": 36.5,
+    "last_lon": -118.0,
+    "next_due": "2026-03-29T12:38:59.855014",
+    "overdue": false,
+    "checkin_count": 3,
+    "created_at": "2026-03-28T11:57:51.164821"
+  }
+]

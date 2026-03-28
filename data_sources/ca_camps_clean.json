@@ -1,0 +1,542 @@
+[
+    {
+        "id": "273863",
+        "name": "Inyo Mountains",
+        "lat": 37.457664,
+        "lon": -117.975641,
+        "price_per_night": 25.0,
+        "max_rv_length": 35.0,
+        "amenities": [
+            "Check Official Site"
+        ],
+        "has_water": true
+    },
+    {
+        "id": "234323",
+        "name": "LIVE OAK SOUTH",
+        "lat": 35.702152,
+        "lon": -118.460662,
+        "price_per_night": 25.0,
+        "max_rv_length": 35.0,
+        "amenities": [
+            "Check Official Site"
+        ],
+        "has_water": true
+    },
+    {
+        "id": "232137",
+        "name": "FRENCHMAN",
+        "lat": 39.8997222,
+        "lon": -120.1866667,
+        "price_per_night": 25.0,
+        "max_rv_length": 35.0,
+        "amenities": [
+            "Check Official Site"
+        ],
+        "has_water": true
+    },
+    {
+        "id": "243872",
+        "name": "Carson Ranger District Office",
+        "lat": 39.15203,
+        "lon": -119.767199,
+        "price_per_night": 25.0,
+        "max_rv_length": 35.0,
+        "amenities": [
+            "Check Official Site"
+        ],
+        "has_water": true
+    },
+    {
+        "id": "234115",
+        "name": "BOCA REST CAMPGROUND",
+        "lat": 39.4191667,
+        "lon": -120.0863889,
+        "price_per_night": 25.0,
+        "max_rv_length": 35.0,
+        "amenities": [
+            "Check Official Site"
+        ],
+        "has_water": true
+    },
+    {
+        "id": "245494",
+        "name": "Wakalu Hep Yo (Wild River) Campground",
+        "lat": 38.322063,
+        "lon": -120.218558,
+        "price_per_night": 25.0,
+        "max_rv_length": 35.0,
+        "amenities": [
+            "Check Official Site"
+        ],
+        "has_water": true
+    },
+    {
+        "id": "233358",
+        "name": "SUMMIT LAKE STOCK CORRAL",
+        "lat": 40.4944444,
+        "lon": -121.4175,
+        "price_per_night": 25.0,
+        "max_rv_length": 35.0,
+        "amenities": [
+            "Check Official Site"
+        ],
+        "has_water": true
+    },
+    {
+        "id": "273755",
+        "name": "MARINERS POINT GROUP CAMPGROUND",
+        "lat": 40.7524833,
+        "lon": -122.2536083,
+        "price_per_night": 25.0,
+        "max_rv_length": 35.0,
+        "amenities": [
+            "Check Official Site"
+        ],
+        "has_water": true
+    },
+    {
+        "id": "233768",
+        "name": "BIG SILVER GROUP",
+        "lat": 38.8791667,
+        "lon": -120.3625,
+        "price_per_night": 25.0,
+        "max_rv_length": 35.0,
+        "amenities": [
+            "Check Official Site"
+        ],
+        "has_water": true
+    },
+    {
+        "id": "232020",
+        "name": "BLACK MOUNTAIN (SAN BERNARDINO)",
+        "lat": 33.8341667,
+        "lon": -116.7388889,
+        "price_per_night": 25.0,
+        "max_rv_length": 35.0,
+        "amenities": [
+            "Check Official Site"
+        ],
+        "has_water": true
+    },
+    {
+        "id": "249979",
+        "name": "POTWISHA CAMPGROUND",
+        "lat": 36.5174444,
+        "lon": -118.800375,
+        "price_per_night": 25.0,
+        "max_rv_length": 35.0,
+        "amenities": [
+            "Check Official Site"
+        ],
+        "has_water": true
+    },
+    {
+        "id": "245556",
+        "name": "Clark Fork Campground",
+        "lat": 38.395413,
+        "lon": -119.799422,
+        "price_per_night": 25.0,
+        "max_rv_length": 35.0,
+        "amenities": [
+            "Check Official Site"
+        ],
+        "has_water": true
+    },
+    {
+        "id": "232818",
+        "name": "Rock Creek (Sierra National Forest, CA)",
+        "lat": 37.2911111,
+        "lon": -119.3594444,
+        "price_per_night": 25.0,
+        "max_rv_length": 35.0,
+        "amenities": [
+            "Check Official Site"
+        ],
+        "has_water": true
+    },
+    {
+        "id": "232045",
+        "name": "FORBES CREEK",
+        "lat": 39.1311111,
+        "lon": -120.7819444,
+        "price_per_night": 25.0,
+        "max_rv_length": 35.0,
+        "amenities": [
+            "Check Official Site"
+        ],
+        "has_water": true
+    },
+    {
+        "id": "233129",
+        "name": "POMO DAY USE AREA",
+        "lat": 39.2355556,
+        "lon": -123.1830556,
+        "price_per_night": 25.0,
+        "max_rv_length": 35.0,
+        "amenities": [
+            "Check Official Site"
+        ],
+        "has_water": true
+    },
+    {
+        "id": "233993",
+        "name": "FISHERMANS GROUP",
+        "lat": 34.2467083,
+        "lon": -117.1108222,
+        "price_per_night": 25.0,
+        "max_rv_length": 35.0,
+        "amenities": [
+            "Check Official Site"
+        ],
+        "has_water": true
+    },
+    {
+        "id": "243234",
+        "name": "San Gabriel Mountains National Monument",
+        "lat": 34.137159,
+        "lon": -117.862122,
+        "price_per_night": 25.0,
+        "max_rv_length": 35.0,
+        "amenities": [
+            "Check Official Site"
+        ],
+        "has_water": true
+    },
+    {
+        "id": "232869",
+        "name": "COLD CREEK",
+        "lat": 39.5427778,
+        "lon": -120.3147222,
+        "price_per_night": 25.0,
+        "max_rv_length": 35.0,
+        "amenities": [
+            "Check Official Site"
+        ],
+        "has_water": true
+    },
+    {
+        "id": "232889",
+        "name": "CAMP THREE CAMPGROUND",
+        "lat": 35.809269,
+        "lon": -118.453606,
+        "price_per_night": 25.0,
+        "max_rv_length": 35.0,
+        "amenities": [
+            "Check Official Site"
+        ],
+        "has_water": true
+    },
+    {
+        "id": "232806",
+        "name": "VERMILLION",
+        "lat": 37.377661,
+        "lon": -119.013861,
+        "price_per_night": 25.0,
+        "max_rv_length": 35.0,
+        "amenities": [
+            "Check Official Site"
+        ],
+        "has_water": true
+    },
+    {
+        "id": "243573",
+        "name": "Gigantea Campground",
+        "lat": 37.01556431,
+        "lon": -119.1054159,
+        "price_per_night": 25.0,
+        "max_rv_length": 35.0,
+        "amenities": [
+            "Check Official Site"
+        ],
+        "has_water": true
+    },
+    {
+        "id": "232498",
+        "name": "SANTA CRUZ SCORPION",
+        "lat": 34.0482444,
+        "lon": -119.5615972,
+        "price_per_night": 25.0,
+        "max_rv_length": 35.0,
+        "amenities": [
+            "Check Official Site"
+        ],
+        "has_water": true
+    },
+    {
+        "id": "238347",
+        "name": "Philpot Picnic Area",
+        "lat": 40.46596576,
+        "lon": -123.190829,
+        "price_per_night": 25.0,
+        "max_rv_length": 35.0,
+        "amenities": [
+            "Check Official Site"
+        ],
+        "has_water": true
+    },
+    {
+        "id": "233839",
+        "name": "DIRT FLAT",
+        "lat": 37.668233,
+        "lon": -119.839488,
+        "price_per_night": 25.0,
+        "max_rv_length": 35.0,
+        "amenities": [
+            "Check Official Site"
+        ],
+        "has_water": true
+    },
+    {
+        "id": "234001",
+        "name": "LOS PRIETOS",
+        "lat": 34.5416667,
+        "lon": -119.8091667,
+        "price_per_night": 25.0,
+        "max_rv_length": 35.0,
+        "amenities": [
+            "Check Official Site"
+        ],
+        "has_water": true
+    },
+    {
+        "id": "242518",
+        "name": "Ortega Highway Area",
+        "lat": 33.6413,
+        "lon": -117.393,
+        "price_per_night": 25.0,
+        "max_rv_length": 35.0,
+        "amenities": [
+            "Check Official Site"
+        ],
+        "has_water": true
+    },
+    {
+        "id": "234224",
+        "name": "POSO GUARD STATION CABIN",
+        "lat": 35.807692,
+        "lon": -118.643928,
+        "price_per_night": 25.0,
+        "max_rv_length": 35.0,
+        "amenities": [
+            "Check Official Site"
+        ],
+        "has_water": true
+    },
+    {
+        "id": "234994",
+        "name": "Hotelling Campground",
+        "lat": 41.2396,
+        "lon": -123.2753,
+        "price_per_night": 25.0,
+        "max_rv_length": 35.0,
+        "amenities": [
+            "Check Official Site"
+        ],
+        "has_water": true
+    },
+    {
+        "id": "232302",
+        "name": "RED FIR",
+        "lat": 39.0022222,
+        "lon": -120.3125,
+        "price_per_night": 25.0,
+        "max_rv_length": 35.0,
+        "amenities": [
+            "Check Official Site"
+        ],
+        "has_water": true
+    },
+    {
+        "id": "232117",
+        "name": "TRUMBULL LAKE",
+        "lat": 38.0505556,
+        "lon": -119.2572222,
+        "price_per_night": 25.0,
+        "max_rv_length": 35.0,
+        "amenities": [
+            "Check Official Site"
+        ],
+        "has_water": true
+    },
+    {
+        "id": "232049",
+        "name": "GERLE CREEK",
+        "lat": 38.975,
+        "lon": -120.3916667,
+        "price_per_night": 25.0,
+        "max_rv_length": 35.0,
+        "amenities": [
+            "Check Official Site"
+        ],
+        "has_water": true
+    },
+    {
+        "id": "243255",
+        "name": "Streamside Campground",
+        "lat": 34.549407,
+        "lon": -118.431905,
+        "price_per_night": 25.0,
+        "max_rv_length": 35.0,
+        "amenities": [
+            "Check Official Site"
+        ],
+        "has_water": true
+    },
+    {
+        "id": "245478",
+        "name": "Mosquito Lakes Campground",
+        "lat": 38.51578,
+        "lon": -119.914118,
+        "price_per_night": 25.0,
+        "max_rv_length": 35.0,
+        "amenities": [
+            "Check Official Site"
+        ],
+        "has_water": true
+    },
+    {
+        "id": "249642",
+        "name": "Coon Creek Yellow Post Sites",
+        "lat": 34.150479,
+        "lon": -116.766367,
+        "price_per_night": 25.0,
+        "max_rv_length": 35.0,
+        "amenities": [
+            "Check Official Site"
+        ],
+        "has_water": true
+    },
+    {
+        "id": "233404",
+        "name": "LAKE MARY CAMPGROUND",
+        "lat": 37.607321,
+        "lon": -119.006422,
+        "price_per_night": 25.0,
+        "max_rv_length": 35.0,
+        "amenities": [
+            "Check Official Site"
+        ],
+        "has_water": true
+    },
+    {
+        "id": "273816",
+        "name": "CEDAR FLAT GROUP CAMPGROUND",
+        "lat": 37.2770083,
+        "lon": -118.1514722,
+        "price_per_night": 25.0,
+        "max_rv_length": 35.0,
+        "amenities": [
+            "Check Official Site"
+        ],
+        "has_water": true
+    },
+    {
+        "id": "10060062",
+        "name": "Campo Alto Group Campground",
+        "lat": 34.83333333,
+        "lon": -119.2041667,
+        "price_per_night": 25.0,
+        "max_rv_length": 35.0,
+        "amenities": [
+            "Check Official Site"
+        ],
+        "has_water": true
+    },
+    {
+        "id": "232398",
+        "name": "AGNEW HORSE CAMP",
+        "lat": 37.683091,
+        "lon": -119.089523,
+        "price_per_night": 25.0,
+        "max_rv_length": 35.0,
+        "amenities": [
+            "Check Official Site"
+        ],
+        "has_water": true
+    },
+    {
+        "id": "242337",
+        "name": "Letts Lake Campground",
+        "lat": 39.302844,
+        "lon": -122.707693,
+        "price_per_night": 25.0,
+        "max_rv_length": 35.0,
+        "amenities": [
+            "Check Official Site"
+        ],
+        "has_water": true
+    },
+    {
+        "id": "251578",
+        "name": "WRIGHTS LAKE EQUESTRIAN CAMPGROUND",
+        "lat": 38.8419111,
+        "lon": -120.2352056,
+        "price_per_night": 25.0,
+        "max_rv_length": 35.0,
+        "amenities": [
+            "Check Official Site"
+        ],
+        "has_water": true
+    },
+    {
+        "id": "232090",
+        "name": "ROBINSON CREEK NORTH",
+        "lat": 38.1861111,
+        "lon": -119.3175,
+        "price_per_night": 25.0,
+        "max_rv_length": 35.0,
+        "amenities": [
+            "Check Official Site"
+        ],
+        "has_water": true
+    },
+    {
+        "id": "245555",
+        "name": "Cascade Creek Campground",
+        "lat": 38.280357,
+        "lon": -119.971382,
+        "price_per_night": 25.0,
+        "max_rv_length": 35.0,
+        "amenities": [
+            "Check Official Site"
+        ],
+        "has_water": true
+    },
+    {
+        "id": "236530",
+        "name": "Hell Hole Campground",
+        "lat": 39.070476,
+        "lon": -120.416609,
+        "price_per_night": 25.0,
+        "max_rv_length": 35.0,
+        "amenities": [
+            "Check Official Site"
+        ],
+        "has_water": true
+    },
+    {
+        "id": "232502",
+        "name": "ANACAPA ISLAND",
+        "lat": 34.0141917,
+        "lon": -119.3677889,
+        "price_per_night": 25.0,
+        "max_rv_length": 35.0,
+        "amenities": [
+            "Check Official Site"
+        ],
+        "has_water": true
+    },
+    {
+        "id": "234000",
+        "name": "TENT PEG GROUP",
+        "lat": 34.262011,
+        "lon": -117.100292,
+        "price_per_night": 25.0,
+        "max_rv_length": 35.0,
+        "amenities": [
+            "Check Official Site"
+        ],
+        "has_water": true
+    }
+]

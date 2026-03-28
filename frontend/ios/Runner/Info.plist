@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+	<dict>
+		<!-- ═══════════════════════════════════════════════════════════════════
+	     US Outdoor Navigator v1.0.0 — iOS Info.plist
+	     Apple App Store Required: Privacy Usage Descriptions
+	     ═══════════════════════════════════════════════════════════════════ -->
+		<!-- ── App Identity ─────────────────────────────────────────────── -->
+		<key>CFBundleDevelopmentRegion</key>
+		<string>$(DEVELOPMENT_LANGUAGE)</string>
+		<key>CFBundleDisplayName</key>
+		<string>US Outdoor Navigator</string>
+		<key>CFBundleExecutable</key>
+		<string>$(EXECUTABLE_NAME)</string>
+		<key>CFBundleIdentifier</key>
+		<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+		<key>CFBundleInfoDictionaryVersion</key>
+		<string>6.0</string>
+		<key>CFBundleName</key>
+		<string>US Outdoor</string>
+		<key>CFBundlePackageType</key>
+		<string>APPL</string>
+		<key>CFBundleShortVersionString</key>
+		<string>$(FLUTTER_BUILD_NAME)</string>
+		<key>CFBundleSignature</key>
+		<string>????</string>
+		<key>CFBundleVersion</key>
+		<string>$(FLUTTER_BUILD_NUMBER)</string>
+		<!-- ── Location Permissions (Apple Required — NSLocation*) ──────── -->
+		<key>NSLocationWhenInUseUsageDescription</key>
+		<string>US Outdoor Navigator uses your location to find campgrounds near you, show real-time wildfire distance, and display relevant weather alerts. Your location is only used while the app is open.</string>
+		<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+		<string>Background location access enables the SOS Dead Man's Switch feature — if you miss a safety check-in while camping, the app can alert your emergency contacts with your last known GPS coordinates. This feature only activates if you enable it manually.</string>
+		<key>NSLocationAlwaysUsageDescription</key>
+		<string>Background location is used exclusively for the SOS emergency check-in feature. The app tracks your location only when this safety feature is active. You can disable it at any time in Settings.</string>
+		<!-- ── Notification Permission ──────────────────────────────────── -->
+		<key>NSUserNotificationUsageDescription</key>
+		<string>We send you critical safety alerts: active wildfires near your campsite, severe weather warnings, and SOS check-in reminders. You can customize which alerts you receive in the app's Settings.</string>
+		<!-- ── Camera Permission (Starlink AR View — Pro Feature) ───────── -->
+		<key>NSCameraUsageDescription</key>
+		<string>Camera access powers the Starlink AR View feature, which uses your rear camera to overlay satellite signal strength and obstruction analysis on your real-world view. This helps you position your Starlink dish for optimal connectivity at your campsite. Camera feed is processed on-device only and never transmitted or stored.</string>
+		<!-- ── Motion & Sensor Permission (Digital Level — Pro Feature) ─── -->
+		<key>NSMotionUsageDescription</key>
+		<string>The Digital Level feature uses your device's accelerometer and gyroscope to measure your RV's pitch and roll angle, helping you level your vehicle precisely for a comfortable stay. Sensor data is processed on-device only.</string>
+		<!-- ── Photo Library ─────────────────────────────────────────────── -->
+		<key>NSPhotoLibraryUsageDescription</key>
+		<string>Save offline map tiles and campground photos to your photo library for use without internet connection.</string>
+		<!-- ── Network & App Transport Security ─────────────────────────── -->
+		<key>NSAppTransportSecurity</key>
+		<dict>
+			<!-- Allow localhost for development only -->
+			<key>NSExceptionDomains</key>
+			<dict>
+				<key>localhost</key>
+				<dict>
+					<key>NSExceptionAllowsInsecureHTTPLoads</key>
+					<true/>
+				</dict>
+			</dict>
+		</dict>
+		<!-- ── UI Configuration ─────────────────────────────────────────── -->
+		<key>LSRequiresIPhoneOS</key>
+		<true/>
+		<key>UILaunchStoryboardName</key>
+		<string>LaunchScreen</string>
+		<key>UIMainStoryboardFile</key>
+		<string>Main</string>
+		<!-- Portrait only (matches main.dart SystemChrome setting) -->
+		<key>UISupportedInterfaceOrientations</key>
+		<array>
+			<string>UIInterfaceOrientationPortrait</string>
+		</array>
+		<key>UISupportedInterfaceOrientations~ipad</key>
+		<array>
+			<string>UIInterfaceOrientationPortrait</string>
+			<string>UIInterfaceOrientationPortraitUpsideDown</string>
+		</array>
+		<!-- ── Performance ──────────────────────────────────────────────── -->
+		<key>CADisableMinimumFrameDurationOnPhone</key>
+		<true/>
+		<key>UIApplicationSupportsIndirectInputEvents</key>
+		<true/>
+		<!-- ── Background Modes (SOS Dead Man's Switch) ─────────────────── -->
+		<key>UIBackgroundModes</key>
+		<array>
+			<string>location</string>
+			<string>fetch</string>
+		</array>
+		<key>UIStatusBarHidden</key>
+		<false/>
+	</dict>
+</plist>

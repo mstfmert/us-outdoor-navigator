@@ -1,0 +1,25 @@
+# railway.toml — Railway.app deployment config
+# Deploy adımları:
+#   1. railway login
+#   2. cd backend && railway init
+#   3. railway up
+#   4. Railway dashboard → Variables → aşağıdaki env var'ları ekle
+
+[build]
+builder = "NIXPACKS"
+
+[deploy]
+startCommand = "uvicorn api_gateway:app --host 0.0.0.0 --port $PORT --workers 2"
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 5
+healthcheckPath = "/health"
+healthcheckTimeout = 30
+
+[environments.production]
+# ── Zorunlu Env Variables (Railway Dashboard → Variables) ──────────────────
+# ENVIRONMENT    = production
+# DATA_DIR       = /app/data_sources
+#
+# ── Opsiyonel ──────────────────────────────────────────────────────────────
+# NASA_API_KEY   = <firms.modaps.eosdis.nasa.gov'dan ücretsiz al>
+# ALLOWED_ORIGINS = https://usoutdoor.app
