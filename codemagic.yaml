@@ -26,12 +26,15 @@ workflows:
     max_build_duration: 90
     instance_type: mac_mini_m2
 
-    integrations:
-      app_store_connect: US_Outdoor_ASC  # Codemagic dashboard'da oluştur
+    # integrations bloku YOK — env var tabanlı auth kullanıyoruz
+    # Codemagic → Team → Global Variables grubuna ekle:
+    #   APP_STORE_CONNECT_KEY_IDENTIFIER  → API Key ID (örn: ABCD1234EF)
+    #   APP_STORE_CONNECT_ISSUER_ID       → Issuer ID (UUID)
+    #   APP_STORE_CONNECT_PRIVATE_KEY     → .p8 dosyasının içeriği (tüm metin)
 
     environment:
       groups:
-        - app_store_credentials  # Codemagic → Team → Variables grupları
+        - app_store_credentials  # Yukarıdaki 3 değişkeni içerir
         - revenuecat_keys
       vars:
         BUNDLE_ID: "com.mert.usoutdoor"
@@ -91,10 +94,16 @@ workflows:
 
     publishing:
       app_store_connect:
-        auth: integration
+        # Env var tabanlı auth — Codemagic dashboard integration GEREKMEZ
+        # app_store_credentials grubunda şu 3 değişken olmalı:
+        #   APP_STORE_CONNECT_PRIVATE_KEY      → .p8 dosyasının tam içeriği
+        #   APP_STORE_CONNECT_KEY_IDENTIFIER   → API Key ID (örn: ABCD1234EF)
+        #   APP_STORE_CONNECT_ISSUER_ID        → Issuer ID (UUID)
+        api_key: $APP_STORE_CONNECT_PRIVATE_KEY
+        key_id: $APP_STORE_CONNECT_KEY_IDENTIFIER
+        issuer_id: $APP_STORE_CONNECT_ISSUER_ID
         submit_to_testflight: true
-        # submit_to_app_store: false (default)
-        # release_type yalnızca submit_to_app_store: true ile kullanılır
+        # submit_to_app_store: false (default — TestFlight only)
 
       email:
         recipients:
