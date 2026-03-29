@@ -1,5 +1,6 @@
-# iOS minimum deployment target — workmanager_apple ve diğer plugin'ler 13.0+ gerektirir
-platform :ios, '13.0'
+# iOS minimum deployment target
+# workmanager 0.9.x + camera + flutter_local_notifications → iOS 14.0+ gerektirir
+platform :ios, '14.0'
 
 # CocoaPods istatistik gönderimini devre dışı bırak (build süresini kısaltır)
 ENV['COCOAPODS_DISABLE_STATS'] = 'true'
@@ -48,8 +49,9 @@ post_install do |installer|
   installer.pods_project.targets.each do |target|
     flutter_additional_ios_build_settings(target)
     target.build_configurations.each do |config|
-      # Tüm pod'lar için iOS 13.0 minimum deployment target zorla
-      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '13.0'
+      # Tüm pod'lar için iOS 14.0 minimum deployment target zorla
+      # workmanager 0.9.x requires 14.0+
+      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '14.0'
     end
   end
 end
