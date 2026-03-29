@@ -17,7 +17,9 @@ class MapService {
   static const String styleUrl = 'mapbox://styles/mapbox/dark-v11';
 
   // ─── Kamera Zoom Seviyeleri ───────────────────────────────────────────────
-  static const double defaultZoom = 9.0;
+  // Zoom 11 → bireysel kamp ikonları görünür (cluster badge değil)
+  // Zoom  9 → tüm kamplar tek badge'e kümelenir, kullanıcı göremez
+  static const double defaultZoom = 11.0;
   static const double minZoom = 3.0;
   static const double maxZoom = 18.0;
 }

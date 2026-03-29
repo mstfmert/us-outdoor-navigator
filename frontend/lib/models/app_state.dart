@@ -107,6 +107,13 @@ class AppState with ChangeNotifier {
     notifyListeners();
   }
 
+  /// Layer kapatılınca o türdeki POI'leri temizle — haritadan kaybolur
+  void removePoiByType(PoiType type) {
+    final before = _poiPoints.length;
+    _poiPoints = _poiPoints.where((p) => p.type != type).toList();
+    if (_poiPoints.length != before) notifyListeners();
+  }
+
   // ── Filtre ────────────────────────────────────────────────────────────────
   void setCampFilter(CampFilter filter) {
     _campFilter = filter;

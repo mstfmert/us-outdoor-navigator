@@ -28,6 +28,7 @@ import '../services/cache_service.dart';
 import '../services/subscription_service.dart';
 import '../models/app_state.dart';
 import '../models/campground.dart';
+import '../models/poi_point.dart';
 import 'profile_screen.dart';
 import 'paywall_screen.dart';
 
@@ -282,9 +283,9 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   void _onMapBoundsChanged(LatLngBounds bounds) {
-    // ── VIEWPORT MERKEZİNİ KAYDET — TÜM sorgular bu koordinatı kullanır ──
-    // GPS konumu değil → kullanıcının baktığı harita merkezi
-    if (mounted) setState(() => _mapCenter = bounds.center);
+    // ── VIEWPORT MERKEZİNİ KAYDET — setState YOK! Sadece field güncelleme ──
+    // setState olursa harita kaydırma sırasında her frame rebuild → yavaşlama
+    _mapCenter = bounds.center;
 
     _bboxTimer?.cancel();
     _bboxTimer = Timer(const Duration(milliseconds: 600), () async {
@@ -364,7 +365,18 @@ class _MapScreenState extends State<MapScreen> {
       'repair' => appState.showRvRepair,
       _ => false,
     };
-    if (!isNowActive) return; // Kapatıldıysa veri çekme
+    if (!isNowActive) {
+      // ── Layer KAPATILDI → o türdeki tüm POI marker'larını haritadan sil ──
+      final poiEnum = switch (poiType) {
+        'fuel' => PoiType.fuel,
+        'ev' => PoiType.evCharge,
+        'market' => PoiType.market,
+        'repair' => PoiType.rvRepair,
+        _ => PoiType.fuel,
+      };
+      appState.removePoiByType(poiEnum);
+      return;
+    }
 
     // POI verisi çek — backend, yoksa Overpass fallback (api_service içinde)
     try {
