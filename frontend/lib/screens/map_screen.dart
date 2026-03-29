@@ -818,8 +818,12 @@ class _MapScreenState extends State<MapScreen> {
           ),
 
           // ── Sol üst: Profil + Upgrade butonları ──────────────────────────
+          // SafetyBarWidget yüksekliği ~48px. Evacuation aktifse butonlar
+          // barın altına (top ≥ 96) itiliyor; aksi hâlde bar gizli (SizedBox).
           Positioned(
-            top: hasWeatherWarning ? 50 : 48,
+            top: appState.isEvacuationWarning
+                ? (hasWeatherWarning ? 98 : 96) // Bar görünür → altına kaç
+                : (hasWeatherWarning ? 50 : 48), // Bar gizli → eski konum
             left: 12,
             child: Consumer<SubscriptionService>(
               builder: (ctx, svc, _) => Row(

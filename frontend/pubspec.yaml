@@ -38,6 +38,7 @@ dependencies:
   # mapbox_gl kaldırıldı (Flutter 3.8 uyumsuzluğu - hashValues deprecated)
   # Yerine flutter_map kullanılıyor (tüm platformlarda çalışır)
   flutter_map: ^6.1.0
+  flutter_map_marker_cluster: ^1.3.2   # GPU-hızlı Supercluster kümeleme
   latlong2: ^0.9.1
   animate_do: ^4.2.0
   http: ^1.6.0

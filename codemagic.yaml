@@ -114,6 +114,71 @@ workflows:
           failure: true
 
   # ─────────────────────────────────────────────────────────────────────────
+  # Android — Direct APK (Google Play kimlik incelemesi için manuel teslim)
+  # Tetikleme: codemagic.io → Workflow → android-release-apk → Start build
+  # Artifact: frontend/build/app/outputs/flutter-apk/app-release.apk
+  # ─────────────────────────────────────────────────────────────────────────
+  android-release-apk:
+    name: Android Release APK — Direct Download
+    max_build_duration: 60
+    instance_type: linux_x2
+
+    environment:
+      # Codemagic → App → Environment variables kısmına ekle (secure):
+      #   RC_KEY_ANDROID               → RevenueCat Android key
+      #   KEYSTORE_BASE64              → keystore dosyasının base64'ü
+      #   CM_KEYSTORE_PASSWORD         → usoutdoor2026
+      #   CM_KEY_ALIAS                 → usoutdoor
+      #   CM_KEY_PASSWORD              → usoutdoor2026
+      vars:
+        PACKAGE_NAME: "com.mert.usoutdoor"
+        API_URL: "https://us-outdoor-api-production.up.railway.app"
+      flutter: stable
+
+    # Manuel tetikleme — etiket veya otomatik trigger YOK
+    # Codemagic dashboard'dan "Start build" ile çalıştır.
+
+    scripts:
+      - name: Set up keystore
+        script: |
+          echo $KEYSTORE_BASE64 | base64 --decode > frontend/android/app/usoutdoor-release.jks
+          cat >> frontend/android/key.properties << EOF
+          storePassword=$CM_KEYSTORE_PASSWORD
+          keyPassword=$CM_KEY_PASSWORD
+          keyAlias=$CM_KEY_ALIAS
+          storeFile=usoutdoor-release.jks
+          EOF
+
+      - name: Flutter pub get
+        script: |
+          cd frontend
+          flutter pub get
+
+      - name: Flutter build APK (release — signed)
+        script: |
+          cd frontend
+          flutter build apk --release \
+            --dart-define=API_URL=$API_URL \
+            --dart-define=RC_KEY_ANDROID=$RC_KEY_ANDROID \
+            --shrink \
+            --obfuscate \
+            --split-debug-info=build/debug-info
+
+    artifacts:
+      # ← Mert'e teslim edilecek dosya buradan indirilir
+      - frontend/build/app/outputs/flutter-apk/app-release.apk
+      - frontend/build/app/outputs/mapping/release/mapping.txt
+      - frontend/build/debug-info/**
+
+    publishing:
+      email:
+        recipients:
+          - mert.neck@gmail.com
+        notify:
+          success: true
+          failure: true
+
+  # ─────────────────────────────────────────────────────────────────────────
   # Android — Play Store Build & Upload
   # ─────────────────────────────────────────────────────────────────────────
   android-play-store:
