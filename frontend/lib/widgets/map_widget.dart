@@ -419,31 +419,36 @@ class _MapWidgetState extends State<MapWidget> {
       ),
       children: [
         // ── Mapbox Terrain-RGB (3D Topografya — sadece açıksa yükle) ────────
+        // ── OpenTopoMap 3D Arazi Katmanı (FREE, Mapbox yerine) ────────────
         if (widget.showTerrain3d)
           Opacity(
             opacity: 0.35,
             child: TileLayer(
-              urlTemplate:
-                  'https://api.mapbox.com/v4/mapbox.terrain-rgb/{z}/{x}/{y}.pngraw?access_token=${MapService.accessToken}',
+              urlTemplate: 'https://tile.opentopomap.org/{z}/{x}/{y}.png',
               tileSize: 256,
               userAgentPackageName: 'com.usoutdoornavigator.app',
-              // ── Performans ──────────────────────────────────────────────
-              keepBuffer: 4,
+              keepBuffer: 2,
               evictErrorTileStrategy: EvictErrorTileStrategy.notVisible,
+              errorTileCallback: (tile, error, stackTrace) {
+                debugPrint('🏔️ Topo tile hatası: $error');
+              },
             ),
           ),
 
-        // ── Mapbox Dark v11 (Ana Harita Katmanı) ───────────────────────────
+        // ── CartoDB DarkMatter (Ana Harita — FREE, API key GEREKMİYOR!) ───
+        // 🚀 TileDisplay.instantaneous() → tile fade yok = jilet gibi akıcı
+        // Subdomains: 4 CDN sunucusuna yük dağıtımı (a/b/c/d)
         TileLayer(
           urlTemplate:
-              'https://api.mapbox.com/styles/v1/mapbox/dark-v11/tiles/256/{z}/{x}/{y}@2x?access_token=${MapService.accessToken}',
-          tileSize: 256,
+              'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
+          subdomains: const ['a', 'b', 'c', 'd'],
           userAgentPackageName: 'com.usoutdoornavigator.app',
-          maxZoom: MapService.maxZoom,
-          // ── Performans Ayarları ─────────────────────────────────────────
-          keepBuffer: 4, // 4 tile buffer — kaydırırken boşluk yok
-          evictErrorTileStrategy:
-              EvictErrorTileStrategy.notVisible, // Hatalı tile belleği serbest
+          maxZoom: 19,
+          tileSize: 256,
+          keepBuffer: 4,
+          tileDisplay: const TileDisplay.instantaneous(),
+          evictErrorTileStrategy: EvictErrorTileStrategy.notVisible,
+          fallbackUrl: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
           errorTileCallback: (tile, error, stackTrace) {
             debugPrint('🗺️ Tile hatası: $error');
           },

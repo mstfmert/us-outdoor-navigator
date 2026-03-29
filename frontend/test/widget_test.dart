@@ -1,10 +1,10 @@
 // US Outdoor Navigator — Smoke Test v1.0.0
 import 'package:flutter_test/flutter_test.dart';
-import 'package:frontend/main.dart';
+import 'package:us_outdoor_navigator/main.dart';
 import 'package:provider/provider.dart';
-import 'package:frontend/services/api_service.dart';
-import 'package:frontend/services/cache_service.dart';
-import 'package:frontend/models/app_state.dart';
+import 'package:us_outdoor_navigator/services/api_service.dart';
+import 'package:us_outdoor_navigator/services/cache_service.dart';
+import 'package:us_outdoor_navigator/models/app_state.dart';
 
 void main() {
   testWidgets('App smoke test — USOutdoorNavigatorApp başlatılabilmeli', (

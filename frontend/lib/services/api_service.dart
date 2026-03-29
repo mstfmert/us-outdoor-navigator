@@ -188,7 +188,7 @@ class ApiService {
     }).toList();
   }
 
-  /// POI verisi çeker — backend /get_poi endpoint (Overpass API proxy)
+  /// POI verisi çeker — backend /get_poi, başarısız → Overpass API fallback
   /// poiType: 'fuel' | 'ev' | 'market' | 'repair'
   Future<List<PoiPoint>> getPoiPoints({
     required double lat,
@@ -196,6 +196,7 @@ class ApiService {
     required String poiType,
     int radiusM = 50000,
   }) async {
+    // 1. Backend dene
     try {
       final uri = Uri.parse('$_baseUrl/get_poi').replace(
         queryParameters: {
@@ -206,16 +207,24 @@ class ApiService {
         },
       );
       final response = await _client.get(uri).timeout(_timeout);
-      if (response.statusCode != 200) {
-        debugPrint('⚠️ POI API ${response.statusCode} ($poiType)');
-        return [];
+      if (response.statusCode == 200) {
+        _markOnline();
+        final data = jsonDecode(response.body) as Map<String, dynamic>;
+        final pois = _parsePoiList(data['pois'] ?? [], poiType);
+        if (pois.isNotEmpty) return pois;
       }
-      final data = jsonDecode(response.body) as Map<String, dynamic>;
-      return _parsePoiList(data['pois'] ?? [], poiType);
     } catch (e) {
-      debugPrint('⚠️ POI fetch hatası ($poiType): $e');
-      return [];
+      _markOffline(e);
+      debugPrint('⚠️ Backend POI failed ($poiType) → Overpass fallback: $e');
     }
+    // 2. Overpass API fallback — her zaman çalışır
+    debugPrint('🔄 Overpass POI query: $poiType');
+    return _getPoiFromOverpass(
+      lat: lat,
+      lon: lon,
+      poiType: poiType,
+      radiusM: radiusM,
+    );
   }
 
   List<PoiPoint> _parsePoiList(List<dynamic> rawList, String typeStr) {
@@ -540,6 +549,126 @@ class ApiService {
     } catch (e) {
       debugPrint('⚠️ doCheckin: $e');
       return false;
+    }
+  }
+
+  // ══════════════════════════════════════════════════════════════════════════
+  // OVERPASS API DIRECT FALLBACK — Backend olmadan çalışır
+  // ══════════════════════════════════════════════════════════════════════════
+
+  /// Overpass API üzerinden kamp alanlarını direkt çek
+  Future<List<Campground>> getCampgroundsFromOverpass(
+    double lat,
+    double lon, {
+    int radiusM = 80000,
+  }) async {
+    try {
+      final query =
+          '[out:json][timeout:25];'
+          '(node["tourism"="camp_site"](around:$radiusM,$lat,$lon);'
+          'way["tourism"="camp_site"](around:$radiusM,$lat,$lon););'
+          'out center 50;';
+      final response = await _client
+          .post(
+            Uri.parse('https://overpass-api.de/api/interpreter'),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            body: 'data=${Uri.encodeComponent(query)}',
+          )
+          .timeout(const Duration(seconds: 25));
+      if (response.statusCode != 200) return [];
+      final data = jsonDecode(response.body) as Map<String, dynamic>;
+      final elements = data['elements'] as List? ?? [];
+      int idx = 0;
+      return elements.take(50).map((el) {
+        final m = el as Map<String, dynamic>;
+        final elLat = ((m['lat'] ?? m['center']?['lat'] ?? lat) as num)
+            .toDouble();
+        final elLon = ((m['lon'] ?? m['center']?['lon'] ?? lon) as num)
+            .toDouble();
+        final tags = m['tags'] as Map<String, dynamic>? ?? {};
+        final hasWater =
+            tags.containsKey('drinking_water') ||
+            tags['drinking_water'] == 'yes';
+        final name = tags['name'] as String? ?? 'Campsite #${++idx}';
+        return Campground(
+          id: 'osm_${m["id"]}',
+          name: name,
+          latitude: elLat,
+          longitude: elLon,
+          pricePerNight: 0.0,
+          maxRvLength: 40.0,
+          amenities: hasWater ? ['water', 'fire_ring'] : ['fire_ring'],
+          hasWater: hasWater,
+          distanceToUser: 0.0,
+          nearestFuelMiles: 10.0,
+          fuelStationName: '',
+        );
+      }).toList();
+    } catch (e) {
+      debugPrint('⚠️ Overpass camps error: $e');
+      return [];
+    }
+  }
+
+  /// Overpass API üzerinden POI çek — private fallback
+  Future<List<PoiPoint>> _getPoiFromOverpass({
+    required double lat,
+    required double lon,
+    required String poiType,
+    int radiusM = 50000,
+  }) async {
+    try {
+      final tag = switch (poiType) {
+        'fuel' => '"amenity"="fuel"',
+        'ev' => '"amenity"="charging_station"',
+        'market' => '"shop"="supermarket"',
+        'repair' => '"shop"="car_repair"',
+        _ => '"amenity"="fuel"',
+      };
+      final query =
+          '[out:json][timeout:25];'
+          '(node[$tag](around:$radiusM,$lat,$lon);'
+          'way[$tag](around:$radiusM,$lat,$lon););'
+          'out center 20;';
+      final response = await _client
+          .post(
+            Uri.parse('https://overpass-api.de/api/interpreter'),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            body: 'data=${Uri.encodeComponent(query)}',
+          )
+          .timeout(const Duration(seconds: 20));
+      if (response.statusCode != 200) return [];
+      final data = jsonDecode(response.body) as Map<String, dynamic>;
+      final elements = data['elements'] as List? ?? [];
+      final overpassPoiType = _poiTypeFromString(poiType);
+      return elements.take(25).map((el) {
+        final m = el as Map<String, dynamic>;
+        final elLat = ((m['lat'] ?? m['center']?['lat'] ?? lat) as num)
+            .toDouble();
+        final elLon = ((m['lon'] ?? m['center']?['lon'] ?? lon) as num)
+            .toDouble();
+        final tags = m['tags'] as Map<String, dynamic>? ?? {};
+        final defaultName = switch (poiType) {
+          'fuel' => 'Gas Station',
+          'ev' => 'EV Charging',
+          'market' => 'Supermarket',
+          'repair' => 'Auto Repair',
+          _ => 'POI',
+        };
+        return PoiPoint.fromOverpass(
+          {
+            'id': m['id'].toString(),
+            'lat': elLat,
+            'lon': elLon,
+            'tags': {'name': tags['name'] ?? defaultName, ...tags},
+          },
+          overpassPoiType,
+          0.0,
+        );
+      }).toList();
+    } catch (e) {
+      debugPrint('⚠️ Overpass POI error: $e');
+      return [];
     }
   }
 

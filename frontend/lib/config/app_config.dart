@@ -35,8 +35,9 @@ class AppConfig {
     // 2. Production build ise cloud URL'i kullan
     if (!kDebugMode) return productionUrl;
 
-    // 3. Debug mode: platform bazlı localhost
-    if (kIsWeb) return 'http://localhost:8000';
+    // 3. Debug mode: Web her zaman production'a bağlanır
+    //    (localhost:8000 web'de CORS hatası verir ve backend web'de çalışmaz)
+    if (kIsWeb) return productionUrl;
     try {
       if (Platform.isAndroid) return 'http://10.0.2.2:8000';
       // iOS Simulator, Windows, macOS, Linux

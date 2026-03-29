@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 
 /// Sağ alt köşeye yerleştirilen hafif parlayan kırmızı SOS butonu.
 /// Basılı tutunca onay dialog'u açılır (yanlışlıkla tetiklemeyi önler).
+/// SizedBox(86×86) ile pulse animasyonu sabit alan kaplar → sidebar çakışmaz.
 class SosButton extends StatefulWidget {
   final double lat;
   final double lon;
@@ -84,8 +85,8 @@ class _SosButtonState extends State<SosButton>
           ScaffoldMessenger.of(ctx).showSnackBar(
             SnackBar(
               backgroundColor: _kOrange,
-              content: Row(
-                children: const [
+              content: const Row(
+                children: [
                   Icon(Icons.sos, color: Colors.white),
                   SizedBox(width: 8),
                   Expanded(
@@ -111,88 +112,94 @@ class _SosButtonState extends State<SosButton>
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: _pulseAnim,
-      builder: (ctx, child) {
-        return GestureDetector(
-          onLongPress: () => _confirm(context),
-          onTap: () {
-            HapticFeedback.lightImpact();
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text(
-                  'Basılı tutun → SOS Aktif',
-                  style: TextStyle(color: Colors.white),
-                ),
-                duration: Duration(seconds: 2),
-                backgroundColor: Color(0xFF8B0000),
-              ),
-            );
-          },
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              // Dış parlama halkası
-              Container(
-                width: 72 * _pulseAnim.value,
-                height: 72 * _pulseAnim.value,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: _kRedGlow.withValues(alpha: 0.15 * _pulseAnim.value),
-                ),
-              ),
-              // Ana buton
-              Container(
-                width: 58,
-                height: 58,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  gradient: const RadialGradient(
-                    colors: [Color(0xFFFF4444), Color(0xFF8B0000)],
-                    center: Alignment(-0.3, -0.3),
+    // 🔑 SizedBox(86×86) → pulse animasyonu sabit alan kaplar
+    // LayerSidebar (right:8) ile alt buton col (right:80) çakışmaz
+    return SizedBox(
+      width: 86,
+      height: 86,
+      child: AnimatedBuilder(
+        animation: _pulseAnim,
+        builder: (ctx, child) {
+          return GestureDetector(
+            onLongPress: () => _confirm(context),
+            onTap: () {
+              HapticFeedback.lightImpact();
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text(
+                    'Basılı tutun → SOS Aktif',
+                    style: TextStyle(color: Colors.white),
                   ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: _kRedGlow.withValues(alpha: 0.6),
-                      blurRadius: 16,
-                      spreadRadius: 2,
-                    ),
-                    BoxShadow(
-                      color: _kRedGlow.withValues(alpha: 0.3),
-                      blurRadius: 30,
-                      spreadRadius: 6,
-                    ),
-                  ],
-                  border: Border.all(color: _kRedGlow, width: 1.5),
+                  duration: Duration(seconds: 2),
+                  backgroundColor: Color(0xFF8B0000),
                 ),
-                child: _isSending
-                    ? const Padding(
-                        padding: EdgeInsets.all(14),
-                        child: CircularProgressIndicator(
-                          color: Colors.white,
-                          strokeWidth: 2,
-                        ),
-                      )
-                    : Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          Icon(Icons.sos, color: Colors.white, size: 22),
-                          Text(
-                            'SOS',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 10,
-                              fontWeight: FontWeight.w900,
-                              letterSpacing: 1.5,
-                            ),
-                          ),
-                        ],
+              );
+            },
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                // Dış parlama halkası — 86px içinde kısıtlı
+                Container(
+                  width: 72 * _pulseAnim.value,
+                  height: 72 * _pulseAnim.value,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: _kRedGlow.withValues(alpha: 0.15 * _pulseAnim.value),
+                  ),
+                ),
+                // Ana buton (sabit 58px)
+                Container(
+                  width: 58,
+                  height: 58,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    gradient: const RadialGradient(
+                      colors: [Color(0xFFFF4444), Color(0xFF8B0000)],
+                      center: Alignment(-0.3, -0.3),
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: _kRedGlow.withValues(alpha: 0.6),
+                        blurRadius: 16,
+                        spreadRadius: 2,
                       ),
-              ),
-            ],
-          ),
-        );
-      },
+                      BoxShadow(
+                        color: _kRedGlow.withValues(alpha: 0.3),
+                        blurRadius: 30,
+                        spreadRadius: 6,
+                      ),
+                    ],
+                    border: Border.all(color: _kRedGlow, width: 1.5),
+                  ),
+                  child: _isSending
+                      ? const Padding(
+                          padding: EdgeInsets.all(14),
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                            strokeWidth: 2,
+                          ),
+                        )
+                      : const Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.sos, color: Colors.white, size: 22),
+                            Text(
+                              'SOS',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 10,
+                                fontWeight: FontWeight.w900,
+                                letterSpacing: 1.5,
+                              ),
+                            ),
+                          ],
+                        ),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 }
@@ -221,8 +228,8 @@ class _SosConfirmDialog extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         side: const BorderSide(color: Color(0xFFFF1744), width: 1.5),
       ),
-      title: Row(
-        children: const [
+      title: const Row(
+        children: [
           Icon(Icons.sos, color: Color(0xFFFF1744), size: 28),
           SizedBox(width: 10),
           Text(
@@ -264,15 +271,11 @@ class _SosConfirmDialog extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
               border: Border.all(color: _kOrange.withValues(alpha: 0.5)),
             ),
-            child: Row(
+            child: const Row(
               children: [
-                const Icon(
-                  Icons.info_outline,
-                  color: Color(0xFFFF6B00),
-                  size: 16,
-                ),
-                const SizedBox(width: 8),
-                const Expanded(
+                Icon(Icons.info_outline, color: Color(0xFFFF6B00), size: 16),
+                SizedBox(width: 8),
+                Expanded(
                   child: Text(
                     'Koordinatlarınız log\'a kaydedilecek. '
                     'Gerçek acil durumda 911\'i arayın.',
