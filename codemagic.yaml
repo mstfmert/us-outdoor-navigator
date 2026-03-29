@@ -33,9 +33,12 @@ workflows:
     #   APP_STORE_CONNECT_PRIVATE_KEY     → .p8 dosyasının içeriği (tüm metin)
 
     environment:
-      groups:
-        - app_store_credentials  # Yukarıdaki 3 değişkeni içerir
-        - revenuecat_keys
+      # Grup YOK — değişkenleri Codemagic → App → Environment variables
+      # (veya Team → Global variables) kısmına tek tek ekle:
+      #   APP_STORE_CONNECT_PRIVATE_KEY    → .p8 dosyasının tam içeriği
+      #   APP_STORE_CONNECT_KEY_IDENTIFIER → API Key ID
+      #   APP_STORE_CONNECT_ISSUER_ID      → Issuer ID (UUID)
+      #   RC_KEY_IOS                       → RevenueCat iOS key
       vars:
         BUNDLE_ID: "com.mert.usoutdoor"
         XCODE_WORKSPACE: "ios/Runner.xcworkspace"
@@ -121,10 +124,14 @@ workflows:
     instance_type: linux_x2
 
     environment:
-      groups:
-        - google_play_credentials
-        - revenuecat_keys
-        - android_signing
+      # Grup YOK — değişkenleri Codemagic → App → Environment variables
+      # kısmına tek tek ekle (secure işaretli):
+      #   RC_KEY_ANDROID               → RevenueCat Android key
+      #   KEYSTORE_BASE64              → keystore dosyasının base64'ü
+      #   CM_KEYSTORE_PASSWORD         → usoutdoor2026
+      #   CM_KEY_ALIAS                 → usoutdoor
+      #   CM_KEY_PASSWORD              → usoutdoor2026
+      #   GCLOUD_SERVICE_ACCOUNT_CREDENTIALS → Play Console JSON key
       vars:
         PACKAGE_NAME: "com.mert.usoutdoor"
         API_URL: "https://us-outdoor-api-production.up.railway.app"
