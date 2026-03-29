@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!-- App Store Connect dağıtımı -->
+    <key>method</key>
+    <string>app-store</string>
+
+    <!-- Codemagic'in fetch ettiği provisioning profile kullanılır -->
+    <key>signingStyle</key>
+    <string>manual</string>
+
+    <!-- Team ID: appstoreconnect.apple.com → Users and Access → Team ID -->
+    <!-- Codemagic bu değeri otomatik doldurur (DEVELOPMENT_TEAM) -->
+    <key>teamID</key>
+    <string>$(DEVELOPMENT_TEAM)</string>
+
+    <!-- Upload bitcode devre dışı (App Store artık gerektirmiyor) -->
+    <key>uploadBitcode</key>
+    <false/>
+
+    <!-- dSYM yükle (Crashlytics için) -->
+    <key>uploadSymbols</key>
+    <true/>
+
+    <!-- App Store'a yükle (TestFlight için de gerekli) -->
+    <key>destination</key>
+    <string>upload</string>
+</dict>
+</plist>

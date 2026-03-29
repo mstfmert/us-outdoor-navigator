@@ -58,11 +58,15 @@ workflows:
     scripts:
       - name: Set up code signing
         script: |
+          # API key'i açıkça geç (env var auto-detection güvenilir değil)
           keychain initialize
           app-store-connect fetch-signing-files \
             "$BUNDLE_ID" \
             --type IOS_APP_STORE \
-            --create
+            --create \
+            --private-key "$APP_STORE_CONNECT_PRIVATE_KEY" \
+            --key-id "$APP_STORE_CONNECT_KEY_IDENTIFIER" \
+            --issuer-id "$APP_STORE_CONNECT_ISSUER_ID"
           keychain add-certificates
           xcode-project use-profiles
 
@@ -76,20 +80,14 @@ workflows:
           cd frontend/ios
           pod install --repo-update
 
-      - name: Flutter build iOS
+      - name: Flutter build IPA
         script: |
+          # flutter build ipa = build + sign + package (tek adımda)
           cd frontend
-          flutter build ios --release \
+          flutter build ipa --release \
             --dart-define=API_URL=$API_URL \
             --dart-define=RC_KEY_IOS=$RC_KEY_IOS \
-            --no-codesign
-
-      - name: Xcode build & sign
-        script: |
-          cd frontend
-          xcode-project build-ipa \
-            --workspace "$XCODE_WORKSPACE" \
-            --scheme "$XCODE_SCHEME"
+            --export-options-plist=ios/ExportOptions.plist
 
     artifacts:
       - frontend/build/ios/ipa/*.ipa
