@@ -9,6 +9,7 @@ import 'dart:math' show Random;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../widgets/safety_bar_widget.dart';
@@ -44,6 +45,11 @@ class _MapScreenState extends State<MapScreen> {
 
   Timer? _bboxTimer;
   Timer? _healthTimer;
+
+  // ── Harita viewport merkezi — TÜM API sorguları bu koordinatı kullanır ──
+  // GPS konumu değil! Kullanıcının bakttığı harita merkezi.
+  // Sırbıstan'dan geliştiren → Joshua Tree'de başlar, harita kaydıkça güncellenir.
+  LatLng _mapCenter = const LatLng(33.8734, -115.9010); // Joshua Tree, CA
 
   Map<String, dynamic>? _weatherData;
   Map<String, dynamic>? _solarData;
@@ -131,9 +137,11 @@ class _MapScreenState extends State<MapScreen> {
     final apiService = context.read<ApiService>();
     appState.setLoading(true);
 
-    // Önce konumu al
-    double lat = appState.currentLocation?.latitude ?? 33.8734;
-    double lon = appState.currentLocation?.longitude ?? -115.9010;
+    // ── KRİTİK: Sorgular için _mapCenter kullan, GPS sadece mavi nokta içindir ──
+    // Sırbıstan'dan geliştirirken ABD haritasına kaydırınca bu koordinatlar güncellenir
+    // İlk açılışta Joshua Tree, CA (33.8734, -115.9010) — ABD'nin varsayılan merkezi
+    double lat = _mapCenter.latitude;
+    double lon = _mapCenter.longitude;
 
     try {
       // 1. Offline cache kontrolü
@@ -145,20 +153,19 @@ class _MapScreenState extends State<MapScreen> {
           s['status'] ?? 'SAFE',
           s['message'] ?? 'Cached data',
         );
-        // Eğer cache boşsa demo ekle
         if (appState.campgrounds.isEmpty) {
           appState.setCampgrounds(_buildDemoCampgrounds(lat, lon));
         }
       } else {
-        // 2. Gerçek konum al
+        // 2. GPS al — SADECE haritadaki mavi nokta için (sorgular için değil!)
         try {
           final loc = await apiService.getUserLocation();
           appState.setCurrentLocation(loc);
-          lat = loc.latitude;
-          lon = loc.longitude;
+          // ⚠️ lat/lon GÜNCELLEME YOK — _mapCenter (Joshua Tree/harita merkezi) kullanılır
+          // GPS Sırbıstan (44°N, 21°E) olsa bile sorgular Joshua Tree'den yapılır
         } catch (_) {}
 
-        // 3. Backend API dene
+        // 3. Backend API dene — _mapCenter koordinatlarıyla
         bool backendSuccess = false;
         try {
           final data = await apiService.getFullReport(
@@ -275,6 +282,10 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   void _onMapBoundsChanged(LatLngBounds bounds) {
+    // ── VIEWPORT MERKEZİNİ KAYDET — TÜM sorgular bu koordinatı kullanır ──
+    // GPS konumu değil → kullanıcının baktığı harita merkezi
+    if (mounted) setState(() => _mapCenter = bounds.center);
+
     _bboxTimer?.cancel();
     _bboxTimer = Timer(const Duration(milliseconds: 600), () async {
       if (!mounted) return;
@@ -326,11 +337,14 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   /// Layer toggle — POI verisi yoksa Overpass API'den çek
+  /// ✅ _mapCenter kullanır: Sırbıstan GPS değil, kullanıcının baktığı ABD haritası
   void _onLayerToggled(String layer) async {
     final appState = context.read<AppState>();
     final apiService = context.read<ApiService>();
-    final lat = appState.currentLocation?.latitude ?? 33.8734;
-    final lon = appState.currentLocation?.longitude ?? -115.9010;
+    // ── KRİTİK: GPS konumu değil, HALİHAZIRDA bakılan harita merkezi ──
+    final lat =
+        _mapCenter.latitude; // Joshua Tree veya kullanıcının pan ettiği yer
+    final lon = _mapCenter.longitude;
 
     final String? poiType = switch (layer) {
       'fuel' => 'fuel',

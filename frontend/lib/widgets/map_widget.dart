@@ -83,14 +83,9 @@ class _MapWidgetState extends State<MapWidget> {
   void didUpdateWidget(MapWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
 
-    // Kamera hareketi
-    if (oldWidget.latitude != widget.latitude ||
-        oldWidget.longitude != widget.longitude) {
-      _mapController.move(
-        LatLng(widget.latitude, widget.longitude),
-        MapService.defaultZoom,
-      );
-    }
+    // ⚠️ KAMERA OTOMATİK TAŞINMIYOR — kullanıcı haritayı serbestçe gezebilir
+    // GPS Sırbıstan bile olsa harita Joshua Tree / kullanıcının baktığı yerde kalır
+    // Sadece veri listeleri değişince marker'lar güncellenir
 
     // Sadece değişen veri listelerini yeniden oluştur (불필요한 rebuild yok)
     bool needsRebuild = false;
